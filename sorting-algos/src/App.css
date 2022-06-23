@@ -28,6 +28,16 @@
   color: #61dafb;
 }
 
+main {
+    min-height: calc(100vh - 7.6rem);
+    padding-top: 1.5em;
+}
+.stick-bottom {
+  position: relative;
+  width: 100%;
+  height: 2.5rem;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -61,6 +71,26 @@
   font-family: 'Rajdhani', sans-serif;
   color:rgb(0, 206, 62);
   font-size: 2em;
+  font-weight: bold;
+}
+
+.header {
+  max-height: 3em;
+}
+
+.headerIcon {
+  height: 3em;
+
+}
+
+.header-text {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: bold;
+}
+
+.header-block {
+  display: inline-block;
+  margin-bottom: -1em;
 }
 
 @keyframes color-change {

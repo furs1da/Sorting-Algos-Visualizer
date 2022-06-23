@@ -5,7 +5,6 @@ import Lottie from "lottie-react";
 
 import * as success from "../lotties/57490-successful.json";
 import * as loadingBar from "../lotties/99274-loading.json";
-import * as pacmanLoading from "../lotties/99275-pacman-loading.json";
 
 
 
