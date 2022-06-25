@@ -29,8 +29,10 @@
 }
 
 main {
-    min-height: calc(100vh - 7.6rem);
-    padding-top: 1.5em;
+    min-height: calc(100vh - 6.8rem);
+    padding-top: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
 }
 .stick-bottom {
   position: relative;

@@ -4,6 +4,7 @@ import React from 'react'
 import Loading from './components/Loading'
 import NavBar from './components/NavBar'
 import Footer from './components/Footer'
+import SortingContainer from './components/SortingContainer'
 import { useGlobalContext } from './context'
 
 
@@ -20,12 +21,9 @@ function App() {
   }
 
   return (
-    <div className="App">
-     
+    <div className="App">     
       <NavBar/>
-      <main>
-        <h2>Smth</h2>
-      </main>
+        <SortingContainer/>
       <Footer/>
     </div>
   );

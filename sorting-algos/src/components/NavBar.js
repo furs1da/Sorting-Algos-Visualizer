@@ -14,7 +14,7 @@ const NavBar = () => {
   const [animation, setAnimation] = useState(false);
 
   const startAnimation = () => {
-      setAnimation(true);
+    setAnimation(true);
   }
   const endAnimation = () => {
     setAnimation(false);
