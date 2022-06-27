@@ -95,6 +95,30 @@ main {
   margin-bottom: -1em;
 }
 
+.array-bar {
+  width: 10px;
+  display: inline-block;
+  position: relative;
+  min-width: 50px;
+  margin-top: 2.5em;
+  margin: 0 1px;
+}
+
+.array-value {
+  position: absolute;
+  top: 0%;
+  margin-top: -1.2em;
+}
+
+.barsContainer {
+  margin-top: 1em;
+  min-height: calc(100vh - 18.9rem);
+  padding: .5em;
+  padding-bottom: 0;
+  border: 5px outset rgba(72, 172, 140, 0.7);
+  border-radius: 9px;
+}
+
 @keyframes color-change {
   0% { color: rgb(0, 136, 106);}
   33% { color: rgb(0, 177, 138); }

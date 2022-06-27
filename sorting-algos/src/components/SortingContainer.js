@@ -21,7 +21,7 @@ import themeButtons from '../data/themes';
 
 const SortingContainer = () => {
 
-   const {arraySize, sortingSpeed, changeSortingSpeed} = useGlobalContext(); 
+  const {isStarted, arraySize, changeSortingSpeed, changeArraySize, changeSortingType, controlSorting, generateNewItemArray, returnToInitialState, itemArray} = useGlobalContext(); 
 
   return (
     <main>
@@ -36,7 +36,6 @@ const SortingContainer = () => {
                         min='1'
                         max='5'
                         onChange={(selectControl) => {
-                            console.log(selectControl.target.value);
                             changeSortingSpeed(selectControl.target.value);
                         }}
                     />
@@ -48,7 +47,11 @@ const SortingContainer = () => {
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select" 
-                            label="Sort Type">
+                            label="Sort Type"
+                            defaultValue='BUBBLE_SORT'
+                            onChange={(selectType) => {
+                                changeSortingType(selectType.target.value);
+                            }}>
                                  {sortingTypes.map((item) => {
                                     return <MenuItem value={item.sortingType} key={item.id}>{item.icon}   {item.name}</MenuItem>
                                 })}
@@ -59,33 +62,57 @@ const SortingContainer = () => {
             <Grid container  direction="row" justifyContent="space-around">
                 <Grid item md={4} xs={8}>
                     <MDBRange
-                        defaultValue={10}
+                        value={arraySize}
                         id='customRange'
                         label='Array Size'
                         min='3'
-                        max='35'
+                        max='20'
+                        onChange={(arraySelect) => {
+                            changeArraySize(arraySelect.target.value);
+                        }}
                     />
                 </Grid>
-                <Grid container md={4} >
+                <Grid item md={4} >
                 <ThemeProvider theme={themeButtons}>
                     <Grid container direction="row" justifyContent="space-around" className='mt-1' spacing={1}>
                         <Grid item>
-                            <Button variant="outlined" color="newArray" startIcon={<AutorenewIcon />}>Generate New Array</Button>
+                            <Button variant="outlined" color="newArray" startIcon={<AutorenewIcon />} onClick={generateNewItemArray}>Generate New Array</Button>
                         </Grid>
                         <Grid item>
-                            <Button variant="outlined" color="initial" startIcon={<SettingsBackupRestoreIcon />}>Initial State</Button>
+                            <Button variant="outlined" color="initial" startIcon={<SettingsBackupRestoreIcon />} onClick={returnToInitialState}>Initial State</Button>
                         </Grid>    
                     </Grid>
                     <Grid container  direction="row" justifyContent="center" className='mt-1' spacing={1}>                   
                         <Grid item>
-                            <Button variant="outlined" color="start" startIcon={<PlayArrowIcon />}>Start</Button>
+                            <Button variant="outlined" color="start" startIcon={<PlayArrowIcon />}  disabled={isStarted} onClick={controlSorting}>Start</Button>
                         </Grid>
                         <Grid item>
-                            <Button variant="outlined" color="stop" endIcon={<StopIcon />}>Stop</Button>
+                            <Button variant="outlined" color="stop" endIcon={<StopIcon />}  disabled={!isStarted} onClick={controlSorting}>Stop</Button>
                         </Grid>
+                        
                     </Grid>
                     
                 </ThemeProvider>
+                </Grid>
+            </Grid>
+            <Grid container justifyContent="center" className='barsContainer' alignItems="flex-end">
+                <Grid item>
+                {itemArray.map((item) =>{
+                    return (
+                        <>
+                        <div
+                        className="array-bar"
+                        style={{
+                            backgroundColor: 'blue',
+                            height: `${item.value * 0.25}em`,
+                            width: `${7 - itemArray.length * 0.3}em`
+                            }}><h5 className='array-value'style={{
+                            left: `${30 - itemArray.length * 0.3}%`
+                            }}>{item.value}</h5></div>
+                        </>
+                    )
+                })}
+               
                 </Grid>
             </Grid>
         </Grid>
