@@ -111,7 +111,7 @@ const AppProvider = ({ children }) => {
             }
             for(let i = 0; i < state.itemArray.length;i++) {
                   dispatch({type: 'SET_IN_PLACE', index: i})
-                  let result = await delay(500);
+                  let result = await delay(300);
               }
             dispatch({type: 'ENABLE_CONTROL'});
         }

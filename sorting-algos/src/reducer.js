@@ -15,7 +15,15 @@ const reducer = (state, action) => {
         return { ...state, sortingType: action.sortingTypeValue }
     }
     if (action.type === 'SORTING_CONTROL') {
-        return { ...state, isStarted: !state.isStarted }
+        let itemArrayTempClone = state.itemArray.map((item) => {
+            return {
+                value: item.value,
+                isSelected: false,
+                isCompared: false,
+                isInPlace: false
+            }
+        })
+        return { ...state, isStarted: !state.isStarted, itemArray: itemArrayTempClone}
     }
     if (action.type === 'ENABLE_CONTROL') {
         if(state.isStarted) {
