@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useReducer, useCallback } from 'react'
+import React, { useState, useContext, useEffect, useReducer, useCallback, useRef } from 'react'
 import reducer from './reducer'
 import Queue from './utilities/queue';
 
@@ -7,7 +7,7 @@ const AppContext = React.createContext();
 const initialState = {
     loading: true,
     completed: false,
-    arraySize: 3,
+    arraySize: 8,
     sortingSpeed: 1000,
     sortingType: 'BUBBLE_SORT',
     isStarted: false,
@@ -21,6 +21,8 @@ const initialState = {
 
 const AppProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
+    const isStartedReference = useRef()
+    isStartedReference.current = state.isStarted;
 
     const showLoadingScreen = () => {
         dispatch({type: 'LOADING'});
@@ -36,16 +38,16 @@ const AppProvider = ({ children }) => {
     const changeSortingSpeed = (value) => {
         switch(value) {
             case '1':
-                dispatch({type: 'SPEED_CHANGE', speedValue: 3500});
+                dispatch({type: 'SPEED_CHANGE', speedValue: 2500});
                 break;
             case '2':
-                dispatch({type: 'SPEED_CHANGE', speedValue: 2800});
+                dispatch({type: 'SPEED_CHANGE', speedValue: 2000});
                 break;
             case '3':
-                dispatch({type: 'SPEED_CHANGE', speedValue: 2100});
+                dispatch({type: 'SPEED_CHANGE', speedValue: 1500});
                 break;
             case '4':
-                dispatch({type: 'SPEED_CHANGE', speedValue: 1400});
+                dispatch({type: 'SPEED_CHANGE', speedValue: 1100});
                 break;
             case '5':
                 dispatch({type: 'SPEED_CHANGE', speedValue: 500}); 
@@ -87,15 +89,19 @@ const AppProvider = ({ children }) => {
     const delay = t => new Promise(resolve => setTimeout(resolve, t));
 
     useEffect(() => {
-        sortData();
+        if(state.isStarted){
+            sortData();
+        }    
     }, [state.isStarted]);
 
     const sortData = async () => {
         if(state.isStarted) {
             let write = 0;            
-            while(write < state.itemArray.length) {
-                
+            while(write < state.itemArray.length) {  
                 for(let i = 0; i < state.itemArray.length - 1;i++) {
+                  if(!isStartedReference.current) {
+                        return;
+                  }
                   if(state.itemArray[i].value > state.itemArray[i+1].value){
                     dispatch({type: 'SWAP_ITEMS', index: i})
                     let result = await delay(state.sortingSpeed);
@@ -103,7 +109,11 @@ const AppProvider = ({ children }) => {
                 }
                 write++;
             }
-            dispatch({type: 'SORTING_CONTROL'});
+            for(let i = 0; i < state.itemArray.length;i++) {
+                  dispatch({type: 'SET_IN_PLACE', index: i})
+                  let result = await delay(500);
+              }
+            dispatch({type: 'ENABLE_CONTROL'});
         }
       }
 

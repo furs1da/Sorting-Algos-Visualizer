@@ -17,6 +17,12 @@ const reducer = (state, action) => {
     if (action.type === 'SORTING_CONTROL') {
         return { ...state, isStarted: !state.isStarted }
     }
+    if (action.type === 'ENABLE_CONTROL') {
+        if(state.isStarted) {
+            return { ...state, isStarted: false}
+        }
+        return { ...state}
+    }
     if (action.type === 'GENERATE_ARRAY') {
         let itemArrayTemp = Array(Number(state.arraySize)).fill().map(() => {
             return {
@@ -42,10 +48,20 @@ const reducer = (state, action) => {
     }
     if(action.type === 'SWAP_ITEMS'){
         let itemArraySwap = state.itemArray;
-        let temp = JSON.parse(JSON.stringify(itemArraySwap[action.index + 1]));
+        if(state.isStarted) {
+            
+            let temp = JSON.parse(JSON.stringify(itemArraySwap[action.index + 1]));
+            itemArraySwap[action.index + 1].value = itemArraySwap[action.index].value;
+            itemArraySwap[action.index].value = temp.value;
+        
+        }
+        return {...state, itemArray: itemArraySwap}
+    }
+    if(action.type === 'SET_IN_PLACE'){
+        let itemArraySwap = state.itemArray;
+      
+        itemArraySwap[action.index].isInPlace = true;
 
-        itemArraySwap[action.index + 1].value = itemArraySwap[action.index].value;
-        itemArraySwap[action.index].value = temp.value;
         return {...state, itemArray: itemArraySwap}
     }
 }
