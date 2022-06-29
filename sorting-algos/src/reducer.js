@@ -1,8 +1,3 @@
-const generateItemArray = (length = 3, min = 5, max = 55) => {
-    return 
-}
-
-
 const reducer = (state, action) => {
     if (action.type === 'LOADING') {
         return { ...state, loading: false }
@@ -31,10 +26,27 @@ const reducer = (state, action) => {
                 isInPlace: false
             }
         })
-        return { ...state, itemArray: itemArrayTemp, initialArrayState: itemArrayTemp }
+        let itemArrayTempClone = JSON.parse(JSON.stringify(itemArrayTemp));
+        return { ...state, itemArray: itemArrayTemp, initialArrayState: itemArrayTempClone }
     }
     if (action.type === 'INITIAL_ARRAY') {
-        return { ...state, itemArray: state.initialArrayState }
+        let itemArrayClone = JSON.parse(JSON.stringify(state.initialArrayState));
+        return { ...state, itemArray: itemArrayClone }
+    }
+    if (action.type === 'CLEAR_ANIMATION') {
+        return { ...state, animationLength: 0 }
+    }
+    if (action.type === 'ADD_ANIMATION_LENGTH') {
+        let animationLengthCopy = state.animationLength + 1;
+        return { ...state, animationLength: animationLengthCopy }
+    }
+    if(action.type === 'SWAP_ITEMS'){
+        let itemArraySwap = state.itemArray;
+        let temp = JSON.parse(JSON.stringify(itemArraySwap[action.index + 1]));
+
+        itemArraySwap[action.index + 1].value = itemArraySwap[action.index].value;
+        itemArraySwap[action.index].value = temp.value;
+        return {...state, itemArray: itemArraySwap}
     }
 }
 

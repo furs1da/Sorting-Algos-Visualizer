@@ -97,19 +97,19 @@ const SortingContainer = () => {
             </Grid>
             <Grid container justifyContent="center" className='barsContainer' alignItems="flex-end">
                 <Grid item>
-                {itemArray.map((item) =>{
+                {itemArray.map((item, index) =>{
                     return (
-                        <>
                         <div
+                        key={index}
                         className="array-bar"
                         style={{
                             backgroundColor: 'blue',
                             height: `${item.value * 0.25}em`,
                             width: `${7 - itemArray.length * 0.3}em`
                             }}><h5 className='array-value'style={{
-                            left: `${30 - itemArray.length * 0.3}%`
-                            }}>{item.value}</h5></div>
-                        </>
+                            left: `${30 - itemArray.length * 0.2}%`
+                            }}
+                        >{item.value}</h5></div>
                     )
                 })}
                
