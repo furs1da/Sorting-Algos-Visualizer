@@ -103,8 +103,8 @@ const SortingContainer = () => {
                         key={index}
                         className="array-bar"
                         style={{
-                            backgroundColor: 'blue',
-                            backgroundColor: `${item.isInPlace ? 'yellow' : 'blue'}`,
+                            backgroundColor: 'mediumseagreen',
+                            backgroundColor: `${item.isInPlace ? 'darkcyan' : 'mediumseagreen'}`,                            
                             height: `${item.value * 0.25}em`,
                             width: `${7 - itemArray.length * 0.3}em`
                             }}><h5 className='array-value'style={{

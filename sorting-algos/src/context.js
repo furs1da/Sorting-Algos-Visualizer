@@ -110,6 +110,9 @@ const AppProvider = ({ children }) => {
                 write++;
             }
             for(let i = 0; i < state.itemArray.length;i++) {
+                if(!isStartedReference.current) {
+                    return;
+                  }
                   dispatch({type: 'SET_IN_PLACE', index: i})
                   let result = await delay(300);
               }
