@@ -113,7 +113,7 @@ const AppProvider = ({ children }) => {
                     
                     break;
                 case 'INSERTION_SORT':
-                    
+                    insertionSortData();
                     break;
                 case 'SELECTION_SORT':
                     selectionSortData();
@@ -169,6 +169,37 @@ const AppProvider = ({ children }) => {
                 dispatch({type: 'SWAP_ITEMS_SELECTION_SORT', stepIndex: step, minIndex: min_index})
                 let result = await delay(state.sortingSpeed);
               }
+            endSorting();
+        }
+      }
+
+      const insertionSortData = async () => {
+        if(state.isStarted) {
+            for(let step = 1; step < state.itemArray.length; step++) {
+                let key = state.itemArray[step].value;
+                let i = step - 1;
+
+
+
+                while(i >= 0 && key < state.itemArray[i].value){
+                    if(!isStartedReference.current) {
+                        return;
+                    }
+                    dispatch({type: 'SET_CURRENT_ITEM', index: i})
+                    dispatch({type: 'SET_COMPARED_ITEM', index: i+1})
+                    dispatch({type: 'INSERT_ITEM_INSERTION_SORT', index: i})
+                    console.log('Inside')
+                    --i;
+                    await delayClear()
+                }
+                console.log('Outside')
+                dispatch({type: 'CLEAR_INDEXES'})
+                dispatch({type: 'SET_CURRENT_ITEM', index: i + 1})
+                
+                dispatch({type: 'INSERT_KEY_INSERTION_SORT', keyValue: key, index: i})
+                let result = await delay(state.sortingSpeed);
+              }
+
             endSorting();
         }
       }

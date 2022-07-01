@@ -72,6 +72,23 @@ const reducer = (state, action) => {
         }
         return {...state, itemArray: itemArraySwap}
     }
+    if(action.type === 'INSERT_ITEM_INSERTION_SORT'){
+        let itemArraySwap = state.itemArray;
+        if(state.isStarted) {
+            let temp = JSON.parse(JSON.stringify(itemArraySwap[action.index]));
+            console.log('Inside temp: ' + temp.value)
+            itemArraySwap[action.index + 1].value = temp.value;    
+        }
+        return {...state, itemArray: itemArraySwap}
+    }
+    if(action.type === 'INSERT_KEY_INSERTION_SORT'){
+        let itemArraySwap = state.itemArray;
+        if(state.isStarted) {
+            let temp = JSON.parse(JSON.stringify(action.keyValue));
+            itemArraySwap[action.index + 1].value = temp;    
+        }
+        return {...state, itemArray: itemArraySwap}
+    }
     if(action.type === 'SET_IN_PLACE'){
         let itemArraySwap = state.itemArray;
       
