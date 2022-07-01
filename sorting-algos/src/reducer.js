@@ -18,8 +18,6 @@ const reducer = (state, action) => {
         let itemArrayTempClone = state.itemArray.map((item) => {
             return {
                 value: item.value,
-                isSelected: false,
-                isCompared: false,
                 isInPlace: false
             }
         })
@@ -35,8 +33,6 @@ const reducer = (state, action) => {
         let itemArrayTemp = Array(Number(state.arraySize)).fill().map(() => {
             return {
                 value: Math.floor(Math.random() * (state.maxArrayValue - state.minArrayValue + 1)) + state.minArrayValue,
-                isSelected: false,
-                isCompared: false,
                 isInPlace: false
             }
         })
@@ -71,6 +67,12 @@ const reducer = (state, action) => {
         itemArraySwap[action.index].isInPlace = true;
 
         return {...state, itemArray: itemArraySwap}
+    }
+    if (action.type === 'SET_CURRENT_ITEM') {
+        return { ...state, selectedIndex: action.index}
+    }
+    if (action.type === 'SET_COMPARED_ITEM') {
+        return { ...state, comparedIndex: action.index}
     }
 }
 

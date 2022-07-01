@@ -21,7 +21,7 @@ import themeButtons from '../data/themes';
 
 const SortingContainer = () => {
 
-  const {isStarted, arraySize, changeSortingSpeed, changeArraySize, changeSortingType, controlSorting, generateNewItemArray, returnToInitialState, itemArray} = useGlobalContext(); 
+  const {isStarted, arraySize, changeSortingSpeed, changeArraySize, changeSortingType, controlSorting, generateNewItemArray, returnToInitialState, itemArray, selectedIndex, comparedIndex} = useGlobalContext(); 
 
   return (
     <main>
@@ -103,8 +103,7 @@ const SortingContainer = () => {
                         key={index}
                         className="array-bar"
                         style={{
-                            backgroundColor: 'mediumseagreen',
-                            backgroundColor: `${item.isInPlace ? 'darkcyan' : 'mediumseagreen'}`,                            
+                            backgroundColor: `${ item.isInPlace ? 'darkcyan' : comparedIndex === index ? 'blue' :  selectedIndex === index ? 'yellow' : 'mediumseagreen'}`,                        
                             height: `${item.value * 0.25}em`,
                             width: `${7 - itemArray.length * 0.3}em`
                             }}><h5 className='array-value'style={{

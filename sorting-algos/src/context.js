@@ -15,6 +15,8 @@ const initialState = {
     initialArrayState: [],
     minArrayValue: 10,
     maxArrayValue: 55,
+    selectedIndex: -1,
+    comparedIndex: -1,
     animationLength: 1
   }
 
@@ -38,22 +40,22 @@ const AppProvider = ({ children }) => {
     const changeSortingSpeed = (value) => {
         switch(value) {
             case '1':
-                dispatch({type: 'SPEED_CHANGE', speedValue: 2500});
+                dispatch({type: 'SPEED_CHANGE', speedValue: 2200});
                 break;
             case '2':
-                dispatch({type: 'SPEED_CHANGE', speedValue: 2000});
+                dispatch({type: 'SPEED_CHANGE', speedValue: 1700});
                 break;
             case '3':
-                dispatch({type: 'SPEED_CHANGE', speedValue: 1500});
+                dispatch({type: 'SPEED_CHANGE', speedValue: 1200});
                 break;
             case '4':
-                dispatch({type: 'SPEED_CHANGE', speedValue: 1100});
+                dispatch({type: 'SPEED_CHANGE', speedValue: 800});
                 break;
             case '5':
-                dispatch({type: 'SPEED_CHANGE', speedValue: 500}); 
+                dispatch({type: 'SPEED_CHANGE', speedValue: 200}); 
                 break;
             default:
-                dispatch({type: 'SPEED_CHANGE', speedValue: 1000});
+                dispatch({type: 'SPEED_CHANGE', speedValue: 700});
                 break;
           }
     }
@@ -67,10 +69,18 @@ const AppProvider = ({ children }) => {
     }
 
     const generateNewItemArray = () => {
+        dispatch({type: 'SORTING_CONTROL'});
+        dispatch({type: 'ENABLE_CONTROL'});
+        dispatch({type: 'SET_CURRENT_ITEM', index: -1})
+        dispatch({type: 'SET_COMPARED_ITEM', index: -1})
         dispatch({type: 'GENERATE_ARRAY'});
     }
 
     const returnToInitialState = () => {
+        dispatch({type: 'SORTING_CONTROL'});
+        dispatch({type: 'ENABLE_CONTROL'});
+        dispatch({type: 'SET_CURRENT_ITEM', index: -1})
+        dispatch({type: 'SET_COMPARED_ITEM', index: -1})
         dispatch({type: 'INITIAL_ARRAY'});
     }
 
@@ -87,6 +97,13 @@ const AppProvider = ({ children }) => {
     }, []);
 
     const delay = t => new Promise(resolve => setTimeout(resolve, t));
+    
+    const delayClear = () => new Promise(resolve => {
+        setTimeout(() => {
+            resolve()
+        }, 1000)  
+    });
+
 
     useEffect(() => {
         if(state.isStarted){
@@ -98,17 +115,30 @@ const AppProvider = ({ children }) => {
         if(state.isStarted) {
             let write = 0;            
             while(write < state.itemArray.length) {  
-                for(let i = 0; i < state.itemArray.length - 1;i++) {
+                for(let i = 0; i < state.itemArray.length - 1; i++) {
                   if(!isStartedReference.current) {
                         return;
                   }
+                  
                   if(state.itemArray[i].value > state.itemArray[i+1].value){
+                    dispatch({type: 'SET_CURRENT_ITEM', index: i+1})
+                    dispatch({type: 'SET_COMPARED_ITEM', index: i})
                     dispatch({type: 'SWAP_ITEMS', index: i})
+                    
                     let result = await delay(state.sortingSpeed);
                   }
+                  else {
+                    dispatch({type: 'SET_CURRENT_ITEM', index: i})
+                    dispatch({type: 'SET_COMPARED_ITEM', index: i + 1})
+                  }
+                  await delayClear()
                 }
                 write++;
             }
+            
+            dispatch({type: 'SET_CURRENT_ITEM', index: -1})
+            dispatch({type: 'SET_COMPARED_ITEM', index: -1})
+            
             for(let i = 0; i < state.itemArray.length;i++) {
                 if(!isStartedReference.current) {
                     return;
