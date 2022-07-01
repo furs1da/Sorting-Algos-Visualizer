@@ -52,7 +52,7 @@ const AppProvider = ({ children }) => {
                 dispatch({type: 'SPEED_CHANGE', speedValue: 500});
                 break;
             case '5':
-                dispatch({type: 'SPEED_CHANGE', speedValue: 200}); 
+                dispatch({type: 'SPEED_CHANGE', speedValue: 100}); 
                 break;
             default:
                 dispatch({type: 'SPEED_CHANGE', speedValue: 500});
@@ -71,16 +71,14 @@ const AppProvider = ({ children }) => {
     const generateNewItemArray = () => {
         dispatch({type: 'SORTING_CONTROL'});
         dispatch({type: 'ENABLE_CONTROL'});
-        dispatch({type: 'SET_CURRENT_ITEM', index: -1})
-        dispatch({type: 'SET_COMPARED_ITEM', index: -1})
+        dispatch({type: 'CLEAR_INDEXES'})
         dispatch({type: 'GENERATE_ARRAY'});
     }
 
     const returnToInitialState = () => {
         dispatch({type: 'SORTING_CONTROL'});
         dispatch({type: 'ENABLE_CONTROL'});
-        dispatch({type: 'SET_CURRENT_ITEM', index: -1})
-        dispatch({type: 'SET_COMPARED_ITEM', index: -1})
+        dispatch({type: 'CLEAR_INDEXES'})
         dispatch({type: 'INITIAL_ARRAY'});
     }
 
@@ -130,8 +128,7 @@ const AppProvider = ({ children }) => {
                 write++;
             }
             
-            dispatch({type: 'SET_CURRENT_ITEM', index: -1})
-            dispatch({type: 'SET_COMPARED_ITEM', index: -1})
+            dispatch({type: 'CLEAR_INDEXES'})
             
             for(let i = 0; i < state.itemArray.length;i++) {
                 if(!isStartedReference.current) {

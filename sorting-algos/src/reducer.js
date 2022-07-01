@@ -74,6 +74,9 @@ const reducer = (state, action) => {
     if (action.type === 'SET_COMPARED_ITEM') {
         return { ...state, comparedIndex: action.index}
     }
+    if (action.type === 'CLEAR_INDEXES') {
+        return { ...state, comparedIndex: -1, selectedIndex: -1}
+    }
 }
 
 
