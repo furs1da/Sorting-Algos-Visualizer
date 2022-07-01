@@ -40,22 +40,22 @@ const AppProvider = ({ children }) => {
     const changeSortingSpeed = (value) => {
         switch(value) {
             case '1':
-                dispatch({type: 'SPEED_CHANGE', speedValue: 1700});
+                dispatch({type: 'SPEED_CHANGE', speedValue: 1500});
                 break;
             case '2':
-                dispatch({type: 'SPEED_CHANGE', speedValue: 1200});
+                dispatch({type: 'SPEED_CHANGE', speedValue: 1000});
                 break;
             case '3':
-                dispatch({type: 'SPEED_CHANGE', speedValue: 700});
+                dispatch({type: 'SPEED_CHANGE', speedValue: 500});
                 break;
             case '4':
-                dispatch({type: 'SPEED_CHANGE', speedValue: 500});
+                dispatch({type: 'SPEED_CHANGE', speedValue: 300});
                 break;
             case '5':
                 dispatch({type: 'SPEED_CHANGE', speedValue: 100}); 
                 break;
             default:
-                dispatch({type: 'SPEED_CHANGE', speedValue: 500});
+                dispatch({type: 'SPEED_CHANGE', speedValue: 1000});
                 break;
           }
     }
@@ -113,7 +113,7 @@ const AppProvider = ({ children }) => {
         if(state.isStarted) {
             let write = 0;            
             while(write < state.itemArray.length) {  
-                for(let i = 0; i < state.itemArray.length - 1; i++) {
+                for(let i = 0; i < state.itemArray.length - write - 1; i++) {
                   if(!isStartedReference.current) {
                         return;
                   }
