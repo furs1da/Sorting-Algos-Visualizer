@@ -50,13 +50,24 @@ const reducer = (state, action) => {
         let animationLengthCopy = state.animationLength + 1;
         return { ...state, animationLength: animationLengthCopy }
     }
-    if(action.type === 'SWAP_ITEMS'){
+    if(action.type === 'SWAP_ITEMS_BUBBLE_SORT'){
         let itemArraySwap = state.itemArray;
         if(state.isStarted) {
             
             let temp = JSON.parse(JSON.stringify(itemArraySwap[action.index + 1]));
             itemArraySwap[action.index + 1].value = itemArraySwap[action.index].value;
             itemArraySwap[action.index].value = temp.value;
+        
+        }
+        return {...state, itemArray: itemArraySwap}
+    }
+    if(action.type === 'SWAP_ITEMS_SELECTION_SORT'){
+        let itemArraySwap = state.itemArray;
+        if(state.isStarted) {
+            
+            let temp = JSON.parse(JSON.stringify(itemArraySwap[action.stepIndex]));
+            itemArraySwap[action.stepIndex].value = itemArraySwap[action.minIndex].value;
+            itemArraySwap[action.minIndex].value = temp.value;
         
         }
         return {...state, itemArray: itemArraySwap}

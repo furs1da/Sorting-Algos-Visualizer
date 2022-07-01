@@ -105,11 +105,28 @@ const AppProvider = ({ children }) => {
 
     useEffect(() => {
         if(state.isStarted){
-            sortData();
+            switch(state.sortingType) {
+                case 'BUBBLE_SORT':
+                    bubbleSortData();
+                    break;
+                case 'MERGE_SORT':
+                    
+                    break;
+                case 'INSERTION_SORT':
+                    
+                    break;
+                case 'SELECTION_SORT':
+                    selectionSortData();
+                    break;             
+                default:
+                    bubbleSortData();
+                    break;
+              }
+              
         }    
     }, [state.isStarted]);
 
-    const sortData = async () => {
+    const bubbleSortData = async () => {
         if(state.isStarted) {
             let write = 0;            
             while(write < state.itemArray.length) {  
@@ -121,24 +138,52 @@ const AppProvider = ({ children }) => {
                   dispatch({type: 'SET_COMPARED_ITEM', index: i + 1})
                   await delayClear()
                   if(state.itemArray[i].value > state.itemArray[i+1].value){
-                    dispatch({type: 'SWAP_ITEMS', index: i})
+                    dispatch({type: 'SWAP_ITEMS_BUBBLE_SORT', index: i})
                     let result = await delay(state.sortingSpeed);
                   }
                 }
                 write++;
             }
-            
-            dispatch({type: 'CLEAR_INDEXES'})
-            
-            for(let i = 0; i < state.itemArray.length;i++) {
-                if(!isStartedReference.current) {
-                    return;
-                  }
-                  dispatch({type: 'SET_IN_PLACE', index: i})
-                  let result = await delay(300);
-              }
-            dispatch({type: 'ENABLE_CONTROL'});
+            endSorting();
         }
+      }
+
+      const selectionSortData = async () => {
+        if(state.isStarted) {
+            for(let step = 0; step < state.itemArray.length - 1; step++) {
+                let min_index = step;
+
+                for(let i = step + 1; i < state.itemArray.length; i++) {
+                    if(!isStartedReference.current) {
+                        return;
+                  }
+                  if(state.itemArray[i].value < state.itemArray[min_index].value) {
+                    min_index = i;
+                  }
+                  dispatch({type: 'SET_CURRENT_ITEM', index: step})
+                  dispatch({type: 'SET_COMPARED_ITEM', index: i})
+                  await delayClear()
+                }
+                dispatch({type: 'SET_CURRENT_ITEM', index: step})
+                dispatch({type: 'SET_COMPARED_ITEM', index: min_index})
+                dispatch({type: 'SWAP_ITEMS_SELECTION_SORT', stepIndex: step, minIndex: min_index})
+                let result = await delay(state.sortingSpeed);
+              }
+            endSorting();
+        }
+      }
+
+      const endSorting = async () => {
+        dispatch({type: 'CLEAR_INDEXES'})
+            
+        for(let i = 0; i < state.itemArray.length;i++) {
+            if(!isStartedReference.current) {
+                return;
+              }
+              dispatch({type: 'SET_IN_PLACE', index: i})
+              let result = await delay(300);
+          }
+        dispatch({type: 'ENABLE_CONTROL'});
       }
 
     return (
