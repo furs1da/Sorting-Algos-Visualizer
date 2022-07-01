@@ -1,6 +1,7 @@
 import BubbleChartIcon from '@mui/icons-material/BubbleChart';
 import MergeIcon from '@mui/icons-material/Merge';
 import InputIcon from '@mui/icons-material/Input';
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 
 const sortingTypes = [
     {
@@ -20,6 +21,12 @@ const sortingTypes = [
         sortingType: 'INSERTION_SORT',
         name: 'Insertion Sort',
         icon: <InputIcon/>
+    },
+    {
+        id: 4,
+        sortingType: 'SELECTION_SORT',
+        name: 'Selection Sort',
+        icon: <SwapHorizIcon/>
     },
 ]
 
