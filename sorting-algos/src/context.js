@@ -40,22 +40,22 @@ const AppProvider = ({ children }) => {
     const changeSortingSpeed = (value) => {
         switch(value) {
             case '1':
-                dispatch({type: 'SPEED_CHANGE', speedValue: 2200});
-                break;
-            case '2':
                 dispatch({type: 'SPEED_CHANGE', speedValue: 1700});
                 break;
-            case '3':
+            case '2':
                 dispatch({type: 'SPEED_CHANGE', speedValue: 1200});
                 break;
+            case '3':
+                dispatch({type: 'SPEED_CHANGE', speedValue: 700});
+                break;
             case '4':
-                dispatch({type: 'SPEED_CHANGE', speedValue: 800});
+                dispatch({type: 'SPEED_CHANGE', speedValue: 500});
                 break;
             case '5':
                 dispatch({type: 'SPEED_CHANGE', speedValue: 200}); 
                 break;
             default:
-                dispatch({type: 'SPEED_CHANGE', speedValue: 700});
+                dispatch({type: 'SPEED_CHANGE', speedValue: 500});
                 break;
           }
     }
@@ -101,7 +101,7 @@ const AppProvider = ({ children }) => {
     const delayClear = () => new Promise(resolve => {
         setTimeout(() => {
             resolve()
-        }, 1000)  
+        }, 500)  
     });
 
 
@@ -119,19 +119,13 @@ const AppProvider = ({ children }) => {
                   if(!isStartedReference.current) {
                         return;
                   }
-                  
+                  dispatch({type: 'SET_CURRENT_ITEM', index: i})
+                  dispatch({type: 'SET_COMPARED_ITEM', index: i + 1})
+                  await delayClear()
                   if(state.itemArray[i].value > state.itemArray[i+1].value){
-                    dispatch({type: 'SET_CURRENT_ITEM', index: i+1})
-                    dispatch({type: 'SET_COMPARED_ITEM', index: i})
                     dispatch({type: 'SWAP_ITEMS', index: i})
-                    
                     let result = await delay(state.sortingSpeed);
                   }
-                  else {
-                    dispatch({type: 'SET_CURRENT_ITEM', index: i})
-                    dispatch({type: 'SET_COMPARED_ITEM', index: i + 1})
-                  }
-                  await delayClear()
                 }
                 write++;
             }
