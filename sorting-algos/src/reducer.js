@@ -61,6 +61,17 @@ const reducer = (state, action) => {
         }
         return {...state, itemArray: itemArraySwap}
     }
+    if(action.type === 'SWAP_ITEMS_MERGE_SORT'){
+        let itemArraySwap = state.itemArray;
+        if(state.isStarted) {
+            
+            let temp = JSON.parse(JSON.stringify(itemArraySwap[action.indexLeft]));
+            itemArraySwap[action.indexLeft].value = itemArraySwap[action.indexRight].value;
+            itemArraySwap[action.indexRight].value = temp.value;
+        
+        }
+        return {...state, itemArray: itemArraySwap}
+    }
     if(action.type === 'SWAP_ITEMS_SELECTION_SORT'){
         let itemArraySwap = state.itemArray;
         if(state.isStarted) {
@@ -76,7 +87,6 @@ const reducer = (state, action) => {
         let itemArraySwap = state.itemArray;
         if(state.isStarted) {
             let temp = JSON.parse(JSON.stringify(itemArraySwap[action.index]));
-            console.log('Inside temp: ' + temp.value)
             itemArraySwap[action.index + 1].value = temp.value;    
         }
         return {...state, itemArray: itemArraySwap}

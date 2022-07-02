@@ -110,7 +110,8 @@ const AppProvider = ({ children }) => {
                     bubbleSortData();
                     break;
                 case 'MERGE_SORT':
-                    
+                    let array = JSON.parse(JSON.stringify(state.itemArray));
+                    mergeSortDataVisual(array);
                     break;
                 case 'INSERTION_SORT':
                     insertionSortData();
@@ -188,11 +189,9 @@ const AppProvider = ({ children }) => {
                     dispatch({type: 'SET_CURRENT_ITEM', index: i})
                     dispatch({type: 'SET_COMPARED_ITEM', index: i+1})
                     dispatch({type: 'INSERT_ITEM_INSERTION_SORT', index: i})
-                    console.log('Inside')
                     --i;
                     await delayClear()
                 }
-                console.log('Outside')
                 dispatch({type: 'CLEAR_INDEXES'})
                 dispatch({type: 'SET_CURRENT_ITEM', index: i + 1})
                 
@@ -201,6 +200,83 @@ const AppProvider = ({ children }) => {
               }
 
             endSorting();
+        }
+      }
+      const mergeSortDataVisual = async (arr) => {
+        if(state.isStarted) {
+            await mergeSortData(arr);
+            endSorting();
+        }
+      }
+      const mergeSortData = async (arr) => {
+        if(state.isStarted) {
+            
+            const half = Math.floor(arr.length / 2);
+
+            if(arr.length <= 1)
+                return arr;
+            
+            const left = arr.splice(0, half);
+            const right = arr;
+            return await mergeData(await mergeSortData(left), await mergeSortData(right));
+            
+        }
+      }
+
+      const mergeData = async (left, right) => {
+        if(state.isStarted) {
+            let sortedArr = [];
+            let startingIndex = state.itemArray.findIndex( (item) => {
+                return item.value === left[0].value;
+            })
+            while(left.length && right.length) {
+                let indexLeftByValue = state.itemArray.findIndex( (item) => {
+                    return item.value === left[0].value;
+                })
+                let indexRightByValue = state.itemArray.findIndex( (item) => {
+                    return item.value === right[0].value;
+                })
+                
+
+                if(left[0].value < right[0].value) {
+                    dispatch({type: 'SET_CURRENT_ITEM', index: startingIndex})
+                    dispatch({type: 'SET_COMPARED_ITEM', index: indexLeftByValue})
+                    dispatch({type: 'SWAP_ITEMS_MERGE_SORT', indexLeft: startingIndex, indexRight: indexLeftByValue})
+                    sortedArr.push(left.shift());
+                }
+                else {
+                    dispatch({type: 'SET_CURRENT_ITEM', index: startingIndex})
+                    dispatch({type: 'SET_COMPARED_ITEM', index: indexRightByValue})
+                    dispatch({type: 'SWAP_ITEMS_MERGE_SORT', indexLeft: startingIndex, indexRight: indexRightByValue})
+                    sortedArr.push(right.shift());
+                }
+                startingIndex++;
+                let result = await delay(1000);
+            }
+            while(left.length) {
+                let indexLeftByValue = state.itemArray.findIndex( (item) => {
+                    return item.value === left[0].value;
+                })
+                dispatch({type: 'SET_CURRENT_ITEM', index: startingIndex})
+                dispatch({type: 'SET_COMPARED_ITEM', index: indexLeftByValue})
+                dispatch({type: 'SWAP_ITEMS_MERGE_SORT', indexLeft: startingIndex, indexRight: indexLeftByValue})
+                sortedArr.push(left.shift());
+                let result = await delay(1000);
+                startingIndex++;
+            }
+            while(right.length) {
+                let indexRightByValue = state.itemArray.findIndex( (item) => {
+                    return item.value === right[0].value;
+                })
+                dispatch({type: 'SET_CURRENT_ITEM', index: startingIndex})
+                dispatch({type: 'SET_COMPARED_ITEM', index: indexRightByValue})
+                dispatch({type: 'SWAP_ITEMS_MERGE_SORT', indexLeft: startingIndex, indexRight: indexRightByValue})
+                sortedArr.push(right.shift());
+                let result = await delay(1000);
+                startingIndex++;
+            }
+            
+            return [...sortedArr, ...left, ...right];
         }
       }
 
