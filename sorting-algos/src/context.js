@@ -7,7 +7,7 @@ const AppContext = React.createContext();
 const initialState = {
     loading: true,
     completed: false,
-    arraySize: 8,
+    arraySize: 5,
     sortingSpeed: 1000,
     sortingType: 'BUBBLE_SORT',
     isStarted: false,
@@ -40,7 +40,7 @@ const AppProvider = ({ children }) => {
     const changeSortingSpeed = (value) => {
         switch(value) {
             case '1':
-                dispatch({type: 'SPEED_CHANGE', speedValue: 1500});
+                dispatch({type: 'SPEED_CHANGE', speedValue: 3000});
                 break;
             case '2':
                 dispatch({type: 'SPEED_CHANGE', speedValue: 1000});
@@ -118,7 +118,13 @@ const AppProvider = ({ children }) => {
                     break;
                 case 'SELECTION_SORT':
                     selectionSortData();
-                    break;             
+                    break;            
+                case 'SHELL_SORT':
+                    shellSortData();
+                    break;
+                case 'QUICK_SORT':
+                    quickSortDataVisual();
+                    break;        
                 default:
                     bubbleSortData();
                     break;
@@ -127,6 +133,7 @@ const AppProvider = ({ children }) => {
         }    
     }, [state.isStarted]);
 
+      // #region Bubble Sort
     const bubbleSortData = async () => {
         if(state.isStarted) {
             let write = 0;            
@@ -148,7 +155,40 @@ const AppProvider = ({ children }) => {
             endSorting();
         }
       }
+      // #endregion
 
+      // #region Shell Sort
+      const shellSortData = async () => {
+        if(state.isStarted) {
+            for(let interval = Math.floor(state.itemArray.length / 2); interval > 0; interval = Math.floor(interval/2)) {
+                for(let i = interval; i < state.itemArray.length; i++){
+                    if(!isStartedReference.current) {
+                        return;
+                    }
+                    let temp = state.itemArray[i].value;
+                    let j = i;
+                    dispatch({type: 'SET_CURRENT_ITEM', index: j})
+                    dispatch({type: 'SET_COMPARED_ITEM', index: j-interval})
+                    for(j = i; j >= interval && state.itemArray[j - interval].value > temp; j -= interval) {
+                        if(!isStartedReference.current) {
+                            return;
+                        }
+                        dispatch({type: 'SET_CURRENT_ITEM', index: j})
+                        dispatch({type: 'SET_COMPARED_ITEM', index: j-interval})
+                        
+                        dispatch({type: 'SWAP_ITEMS_MERGE_SORT', indexLeft: j, indexRight: j-interval})
+                        let result = await delay(state.sortingSpeed);
+                    }
+                    
+                    dispatch({type: 'INSERT_KEY_SHELL_SORT', keyValue: temp, index: j})
+                    let result = await delayClear(); 
+                }
+            }
+            endSorting();
+        }
+      }
+      // #endregion
+      // #region Selection Sort
       const selectionSortData = async () => {
         if(state.isStarted) {
             for(let step = 0; step < state.itemArray.length - 1; step++) {
@@ -173,7 +213,9 @@ const AppProvider = ({ children }) => {
             endSorting();
         }
       }
-
+      // #endregion
+      
+      // #region Insertion Sort
       const insertionSortData = async () => {
         if(state.isStarted) {
             for(let step = 1; step < state.itemArray.length; step++) {
@@ -202,15 +244,26 @@ const AppProvider = ({ children }) => {
             endSorting();
         }
       }
+      // #endregion
+      
+      // #region Merge Sort
       const mergeSortDataVisual = async (arr) => {
         if(state.isStarted) {
+            if(!isStartedReference.current) {
+                return;
+            }
             await mergeSortData(arr);
+            if(!isStartedReference.current) {
+                return;
+            }
             endSorting();
         }
       }
       const mergeSortData = async (arr) => {
         if(state.isStarted) {
-            
+            if(!isStartedReference.current) {
+                return;
+            }
             const half = Math.floor(arr.length / 2);
 
             if(arr.length <= 1)
@@ -230,6 +283,9 @@ const AppProvider = ({ children }) => {
                 return item.value === left[0].value;
             })
             while(left.length && right.length) {
+                if(!isStartedReference.current) {
+                    return;
+                }
                 let indexLeftByValue = state.itemArray.findIndex( (item) => {
                     return item.value === left[0].value;
                 })
@@ -254,6 +310,9 @@ const AppProvider = ({ children }) => {
                 let result = await delay(1000);
             }
             while(left.length) {
+                if(!isStartedReference.current) {
+                    return;
+                }
                 let indexLeftByValue = state.itemArray.findIndex( (item) => {
                     return item.value === left[0].value;
                 })
@@ -265,6 +324,9 @@ const AppProvider = ({ children }) => {
                 startingIndex++;
             }
             while(right.length) {
+                if(!isStartedReference.current) {
+                    return;
+                }
                 let indexRightByValue = state.itemArray.findIndex( (item) => {
                     return item.value === right[0].value;
                 })
@@ -279,6 +341,94 @@ const AppProvider = ({ children }) => {
             return [...sortedArr, ...left, ...right];
         }
       }
+     // #endregion
+     
+     // #region Quick Sort
+     const quickSortDataVisual = async () => {
+        if(state.isStarted) {
+            if(!isStartedReference.current) {
+                return;
+            }
+            await quickSortData(0, state.itemArray.length - 1);
+            if(!isStartedReference.current) {
+                return;
+            }
+            endSorting();
+        }
+      }
+      const quickSortData = async (left, right) => {
+        if(state.isStarted) {
+            if(!isStartedReference.current) {
+                return;
+            }
+           
+            let pivot = await partitionData(left, right);
+            console.log(pivot);
+            if(left < pivot - 1) {
+                await quickSortData(left, pivot - 1);
+            }
+            if(pivot < right) {
+                await quickSortData(pivot, right);
+            }
+            if(!isStartedReference.current) {
+                return;
+            }
+            
+        }
+      }
+
+      const partitionData = async (left, right) => {
+        if(state.isStarted) {
+            if(!isStartedReference.current) {
+                return;
+            }
+            let pivot = state.itemArray[Math.floor((right+left)/2)].value;
+            let i = left;
+            let j = right;
+            while(i <= j) {
+                while(state.itemArray[i].value < pivot) {
+                    if(!isStartedReference.current) {
+                        return;
+                    }
+                    dispatch({type: 'SET_CURRENT_ITEM', index: Math.floor((right+left)/2)})
+                    dispatch({type: 'SET_COMPARED_ITEM', index: i})
+                    i++;
+                    console.log(i)
+                    console.log('end i')
+                    await delayClear();
+                }
+                while(state.itemArray[j].value > pivot) {
+                    if(!isStartedReference.current) {
+                        return;
+                    }
+                    dispatch({type: 'SET_CURRENT_ITEM', index: Math.floor((right+left)/2)})
+                    dispatch({type: 'SET_COMPARED_ITEM', index: j})
+                    j--;
+                    console.log(j)
+                    console.log('end J')
+                    await delayClear();
+                }
+                if(i <= j) {
+                    if(!isStartedReference.current) {
+                        return;
+                    }
+                    dispatch({type: 'SET_CURRENT_ITEM', index: i})
+                    dispatch({type: 'SET_COMPARED_ITEM', index: j})
+                    dispatch({type: 'SWAP_ITEMS_MERGE_SORT', indexLeft: i, indexRight: j})
+                    i++;
+                    j--;
+                    console.log('swap')
+                    let result = await delay(state.sortingSpeed);
+                }
+            }           
+            return i; 
+        }
+      }
+
+     // #endregion
+
+
+     // #region End Sort Animation
 
       const endSorting = async () => {
         dispatch({type: 'CLEAR_INDEXES'})
@@ -292,8 +442,9 @@ const AppProvider = ({ children }) => {
           }
         dispatch({type: 'ENABLE_CONTROL'});
       }
-
-    return (
+     // #endregion  
+    
+     return (
         <AppContext.Provider
         value = {{
             ...state,

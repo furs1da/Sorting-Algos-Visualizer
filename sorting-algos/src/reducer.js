@@ -99,6 +99,14 @@ const reducer = (state, action) => {
         }
         return {...state, itemArray: itemArraySwap}
     }
+    if(action.type === 'INSERT_KEY_SHELL_SORT'){
+        let itemArraySwap = state.itemArray;
+        if(state.isStarted) {
+            let temp = JSON.parse(JSON.stringify(action.keyValue));
+            itemArraySwap[action.index].value = temp;    
+        }
+        return {...state, itemArray: itemArraySwap}
+    }
     if(action.type === 'SET_IN_PLACE'){
         let itemArraySwap = state.itemArray;
       
