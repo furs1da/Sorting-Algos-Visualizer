@@ -64,11 +64,9 @@ const reducer = (state, action) => {
     if(action.type === 'SWAP_ITEMS_MERGE_SORT'){
         let itemArraySwap = state.itemArray;
         if(state.isStarted) {
-            
             let temp = JSON.parse(JSON.stringify(itemArraySwap[action.indexLeft]));
             itemArraySwap[action.indexLeft].value = itemArraySwap[action.indexRight].value;
             itemArraySwap[action.indexRight].value = temp.value;
-        
         }
         return {...state, itemArray: itemArraySwap}
     }

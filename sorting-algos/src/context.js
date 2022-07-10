@@ -7,8 +7,8 @@ const AppContext = React.createContext();
 const initialState = {
     loading: true,
     completed: false,
-    arraySize: 5,
-    sortingSpeed: 1000,
+    arraySize: 20,
+    sortingSpeed: 100,
     sortingType: 'BUBBLE_SORT',
     isStarted: false,
     itemArray: [],
@@ -264,11 +264,14 @@ const AppProvider = ({ children }) => {
             if(!isStartedReference.current) {
                 return;
             }
-            const half = Math.floor(arr.length / 2);
+            let half = Math.floor(arr.length / 2 - 1);
 
             if(arr.length <= 1)
                 return arr;
-            
+            if(half < 1) {
+                half += 1;
+            }
+
             const left = arr.splice(0, half);
             const right = arr;
             return await mergeData(await mergeSortData(left), await mergeSortData(right));
@@ -279,22 +282,42 @@ const AppProvider = ({ children }) => {
       const mergeData = async (left, right) => {
         if(state.isStarted) {
             let sortedArr = [];
-            let startingIndex = state.itemArray.findIndex( (item) => {
-                return item.value === left[0].value;
-            })
-            while(left.length && right.length) {
+            let startingIndex = 0;
+            if(left !== undefined){
+                startingIndex = state.itemArray.findIndex( (item) => {
+                    return item.value === left[0].value;
+                })
+            }
+            if(right !== undefined){
+                startingIndex = state.itemArray.findIndex( (item) => {
+                    return item.value === right[0].value;
+                })
+            }
+            if(left.length !== 0 && right.length !== 0) {
+                
+                let leftIndex = state.itemArray.findIndex( (item) => {
+                    return item.value === left[0].value;
+                })
+               
+                let rightIndex = state.itemArray.findIndex( (item) => {
+                        return item.value === right[0].value;
+                    })
+                
+                startingIndex = leftIndex < rightIndex ? leftIndex : rightIndex; 
+            }
+            while(left !== undefined && left.length !== 0 && right !== undefined && right.length !== 0) {
                 if(!isStartedReference.current) {
                     return;
                 }
-                let indexLeftByValue = state.itemArray.findIndex( (item) => {
-                    return item.value === left[0].value;
+                let indexLeftByValue = state.itemArray.findIndex( (item, index) => {
+                    return item.value === left[0].value && index >= startingIndex;
                 })
-                let indexRightByValue = state.itemArray.findIndex( (item) => {
-                    return item.value === right[0].value;
+                let indexRightByValue = state.itemArray.findIndex( (item, index) => {
+                    return item.value === right[0].value && index >= startingIndex;
                 })
                 
 
-                if(left[0].value < right[0].value) {
+                if(left[0].value <= right[0].value) {
                     dispatch({type: 'SET_CURRENT_ITEM', index: startingIndex})
                     dispatch({type: 'SET_COMPARED_ITEM', index: indexLeftByValue})
                     dispatch({type: 'SWAP_ITEMS_MERGE_SORT', indexLeft: startingIndex, indexRight: indexLeftByValue})
@@ -307,9 +330,11 @@ const AppProvider = ({ children }) => {
                     sortedArr.push(right.shift());
                 }
                 startingIndex++;
-                let result = await delay(1000);
+                let result = await delay(state.sortingSpeed);
             }
-            while(left.length) {
+            
+            
+            while(left !== undefined && left.length !== 0) {
                 if(!isStartedReference.current) {
                     return;
                 }
@@ -320,10 +345,10 @@ const AppProvider = ({ children }) => {
                 dispatch({type: 'SET_COMPARED_ITEM', index: indexLeftByValue})
                 dispatch({type: 'SWAP_ITEMS_MERGE_SORT', indexLeft: startingIndex, indexRight: indexLeftByValue})
                 sortedArr.push(left.shift());
-                let result = await delay(1000);
                 startingIndex++;
+                let result = await delay(state.sortingSpeed);
             }
-            while(right.length) {
+            while(right !== undefined && right.length !== 0) {
                 if(!isStartedReference.current) {
                     return;
                 }
@@ -334,11 +359,11 @@ const AppProvider = ({ children }) => {
                 dispatch({type: 'SET_COMPARED_ITEM', index: indexRightByValue})
                 dispatch({type: 'SWAP_ITEMS_MERGE_SORT', indexLeft: startingIndex, indexRight: indexRightByValue})
                 sortedArr.push(right.shift());
-                let result = await delay(1000);
                 startingIndex++;
+                let result = await delay(state.sortingSpeed);
             }
-            
-            return [...sortedArr, ...left, ...right];
+           
+            return [...sortedArr];
         }
       }
      // #endregion
@@ -363,7 +388,7 @@ const AppProvider = ({ children }) => {
             }
            
             let pivot = await partitionData(left, right);
-            console.log(pivot);
+      
             if(left < pivot - 1) {
                 await quickSortData(left, pivot - 1);
             }
@@ -393,8 +418,6 @@ const AppProvider = ({ children }) => {
                     dispatch({type: 'SET_CURRENT_ITEM', index: Math.floor((right+left)/2)})
                     dispatch({type: 'SET_COMPARED_ITEM', index: i})
                     i++;
-                    console.log(i)
-                    console.log('end i')
                     await delayClear();
                 }
                 while(state.itemArray[j].value > pivot) {
@@ -404,8 +427,6 @@ const AppProvider = ({ children }) => {
                     dispatch({type: 'SET_CURRENT_ITEM', index: Math.floor((right+left)/2)})
                     dispatch({type: 'SET_COMPARED_ITEM', index: j})
                     j--;
-                    console.log(j)
-                    console.log('end J')
                     await delayClear();
                 }
                 if(i <= j) {
@@ -417,7 +438,6 @@ const AppProvider = ({ children }) => {
                     dispatch({type: 'SWAP_ITEMS_MERGE_SORT', indexLeft: i, indexRight: j})
                     i++;
                     j--;
-                    console.log('swap')
                     let result = await delay(state.sortingSpeed);
                 }
             }           
@@ -426,7 +446,12 @@ const AppProvider = ({ children }) => {
       }
 
      // #endregion
-
+     
+     // #region Heap Sort 
+     const heapSort = async () => {
+        
+      }
+     // #endregion
 
      // #region End Sort Animation
 
@@ -438,7 +463,7 @@ const AppProvider = ({ children }) => {
                 return;
               }
               dispatch({type: 'SET_IN_PLACE', index: i})
-              let result = await delay(300);
+              let result = await delay(state.sortingSpeed / 2);
           }
         dispatch({type: 'ENABLE_CONTROL'});
       }
