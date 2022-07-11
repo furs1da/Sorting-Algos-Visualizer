@@ -1,21 +1,16 @@
-import React, { useState, useContext, useEffect, useReducer } from 'react'
+import React from 'react'
 import { useGlobalContext } from '../context'
-import { MDBCol, MDBContainer, MDBRow, MDBFooter, MDBIcon} from "mdbreact";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css'
 import { MDBRange} from 'mdb-react-ui-kit';
-
-import { FormControl, InputLabel, Select, MenuItem, Button, ThemeProvider, Grid, Item } from '@mui/material';
+import { FormControl, InputLabel, Select, MenuItem, Button, ThemeProvider, Grid } from '@mui/material';
 import sortingTypes from '../data/sorting-types';
-import Lottie from "lottie-react";
-
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
-
 import themeButtons from '../data/themes';
 
 
