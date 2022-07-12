@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useReducer, useRef } from 'react'
 import reducer from './reducer'
 
+
 const AppContext = React.createContext();
 
 const initialState = {
@@ -16,7 +17,9 @@ const initialState = {
     maxArrayValue: 55,
     selectedIndex: -1,
     comparedIndex: -1,
-    animationLength: 1
+    animationLength: 1,
+    timeComplexity: '',
+    spaceComplexity: ''
   }
 
 
@@ -65,6 +68,7 @@ const AppProvider = ({ children }) => {
 
     const changeSortingType = (value) => {
         dispatch({type: 'SORTING_TYPE_CHANGE', sortingTypeValue: value});
+        dispatch({type: 'SET_TIME_AND_SPACE_COMPLEXITY', sortType: value});
     }
 
     const generateNewItemArray = () => {
@@ -89,7 +93,7 @@ const AppProvider = ({ children }) => {
                 showLoadingCompletedScreen();  
             }, 1500);
         }, 2250)
-        
+        dispatch({type: 'SET_TIME_AND_SPACE_COMPLEXITY', sortType: state.sortingType});
         return () => clearTimeout(timer);
     }, []);
 
@@ -460,18 +464,19 @@ const AppProvider = ({ children }) => {
      
         // One by one extract an element from heap 
         for (let i = state.itemArray.length - 1; i >= 0; i--) { 
-           // Move current root to end
-           if(!isStartedReference.current) {
-            return;
-           } 
-           dispatch({type: 'SET_CURRENT_ITEM', index: 0})
-           dispatch({type: 'SET_COMPARED_ITEM', index: i})
-           dispatch({type: 'SWAP_ITEMS_MERGE_SORT', indexLeft: 0, indexRight: i})
-
-           await delayClear();
-           // call max heapify on the reduced heap 
-           await maxHeapify(i, 0); 
+            // Move current root to end
+            if(!isStartedReference.current) {
+             return;
+            } 
+            dispatch({type: 'SET_CURRENT_ITEM', index: 0})
+            dispatch({type: 'SET_COMPARED_ITEM', index: i})
+            dispatch({type: 'SWAP_ITEMS_MERGE_SORT', indexLeft: 0, indexRight: i})
+ 
+            await delayClear();
+            // call max heapify on the reduced heap 
+            await maxHeapify(i, 0); 
         }
+        
         endSorting(); 
       }
 

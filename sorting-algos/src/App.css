@@ -111,10 +111,10 @@ main {
 }
 
 .barsContainer {
-  margin-top: 1em;
-  min-height: calc(100vh - 18.9rem);
+  min-height: calc(100vh - 20.82em);
   padding: .5em;
   padding-bottom: 0;
+  padding-top: 2em;
   border: 5px outset rgba(72, 172, 140, 0.7);
   border-radius: 9px;
 }
@@ -126,6 +126,11 @@ main {
   100% { color: rgb(0, 236, 185); }
 }
 
+.informationContainer {
+  margin-bottom: -.3em;
+  color:rgb(9, 91, 150);;
+  
+}
 
 @media only screen and (max-width: 768px) {
   .containerLoading {
@@ -135,5 +140,11 @@ main {
     display: flex;
     align-items: flex-start;
     justify-content: center;
+  }
+  .array-bar {
+    margin-top: 2em;
+  }
+  .barsContainer {
+    min-height: calc(100vh - 30.5rem);
   }
 }

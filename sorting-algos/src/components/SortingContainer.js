@@ -12,11 +12,13 @@ import StopIcon from '@mui/icons-material/Stop';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
 import themeButtons from '../data/themes';
-
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import WarehouseIcon from '@mui/icons-material/Warehouse';
+import WarehouseOutlinedIcon from '@mui/icons-material/WarehouseOutlined';
 
 const SortingContainer = () => {
 
-  const {isStarted, arraySize, changeSortingSpeed, changeArraySize, changeSortingType, controlSorting, generateNewItemArray, returnToInitialState, itemArray, selectedIndex, comparedIndex} = useGlobalContext(); 
+  const {timeComplexity, spaceComplexity, isStarted, arraySize, changeSortingSpeed, changeArraySize, changeSortingType, controlSorting, generateNewItemArray, returnToInitialState, itemArray, selectedIndex, comparedIndex} = useGlobalContext(); 
 
   return (
     <main>
@@ -90,6 +92,16 @@ const SortingContainer = () => {
                 </ThemeProvider>
                 </Grid>
             </Grid>
+
+            <Grid container  direction="row" justifyContent="space-around" alignItems="center" className='mt-4 informationContainer'>
+                <Grid item md={4} xs={8}>
+                   <h5><AccessTimeIcon className='mr-1 mb-1'/> Time Complexity: {timeComplexity}</h5>
+                </Grid>
+                <Grid item md={4} xs={8}>
+                   <h5><WarehouseOutlinedIcon className='mr-1 mb-1'/> Space Complexity: {spaceComplexity}</h5> 
+                </Grid>
+            </Grid>
+
             <Grid container justifyContent="center" className='barsContainer' alignItems="flex-end">
                 <Grid item>
                 {itemArray.map((item, index) =>{

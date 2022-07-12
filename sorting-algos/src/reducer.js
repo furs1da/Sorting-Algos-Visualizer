@@ -1,3 +1,5 @@
+import sortingTypes from './data/sorting-types';
+
 const reducer = (state, action) => {
     if (action.type === 'LOADING') {
         return { ...state, loading: false }
@@ -10,6 +12,12 @@ const reducer = (state, action) => {
     }
     if (action.type === 'ARRAY_SIZE_CHANGE') {
         return { ...state, arraySize: action.arraySizeValue }
+    }
+    if (action.type === 'SET_TIME_AND_SPACE_COMPLEXITY') {
+        let sortingTypeTemp = sortingTypes.find((item) => {
+            return item.sortingType === action.sortType;
+        });
+        return { ...state, timeComplexity: sortingTypeTemp.timeComplexity, spaceComplexity: sortingTypeTemp.spaceComplexity}
     }
     if (action.type === 'SORTING_TYPE_CHANGE') {
         return { ...state, sortingType: action.sortingTypeValue }
