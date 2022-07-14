@@ -9,6 +9,15 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 
+/**
+ * sortingTypes array is a collection of different sorting types with usch properties like 
+ * timeComplexity (used in SortingContainer.js to display Time Complexity of selected Algorithm), 
+ * spaceCompelxity (used in SortingContainer.js to display Space Complexity of selected Algorithm), 
+ * sortingType (used in context.js to use selected Algorithm while sorting data), 
+ * name (used in SortingContainer.js to display name of Algorithm in the select control), 
+ * icon (used in SortingContainer.js to display icon of Algorithm in the select control (to enchance UI))
+ */
+
 const sortingTypes = [
     {
         id: 1,

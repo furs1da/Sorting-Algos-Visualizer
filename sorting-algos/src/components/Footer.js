@@ -1,9 +1,13 @@
 import React from 'react'
-import { useGlobalContext } from '../context'
-import { MDBCol, MDBContainer, MDBRow, MDBFooter, MDBIcon } from "mdbreact";
+import { MDBContainer, MDBFooter, MDBIcon } from "mdbreact";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
+
+/**
+ * Footer is a component to enhance reusbality, there is no special functionality in this component
+ * A little note fore beginners, target="_blank" in <a></a> component is used to open the link in a new tab
+ */
 
 const Footer = () => {
     return (

@@ -13,8 +13,14 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
 import themeButtons from '../data/themes';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import WarehouseIcon from '@mui/icons-material/Warehouse';
 import WarehouseOutlinedIcon from '@mui/icons-material/WarehouseOutlined';
+
+/**
+ * SortingContainer is a component with all button controls and an item array
+ * All properties and functions are used from globalContext (context.js)
+ * 
+ * This component uses MUI to place controls and elements in appropriate positions on the user screen (Grid system)
+*/
 
 const SortingContainer = () => {
 

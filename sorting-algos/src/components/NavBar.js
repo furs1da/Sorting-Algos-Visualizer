@@ -1,6 +1,5 @@
-import React, { useState, useContext, useEffect, useReducer } from 'react'
-import { useGlobalContext } from '../context'
-import { MDBCol, MDBContainer, MDBRow, MDBFooter, MDBIcon } from "mdbreact";
+import React, { useState } from 'react'
+import { MDBContainer, MDBFooter } from "mdbreact";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
@@ -8,6 +7,14 @@ import 'mdbreact/dist/css/mdb.css';
 import Lottie from "lottie-react";
 import * as scales from "../lotties/lf20_036hc3zw.json";
 
+/**
+ * NavBar is a component to enhance reusbality and implement animation on hover
+ * animation property of NavBar component is used to control animation of a Lottie animation file
+ * When user will hover over Lottie icon, the loop property will be set 'true' and animation will be repeated until user 
+ * will remove mouse from the Lottie icon
+ * 
+ * Lottie documentation - https://www.npmjs.com/package/lottie-react
+ */
 
 const NavBar = () => {
   

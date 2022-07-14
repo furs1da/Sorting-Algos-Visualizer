@@ -1,48 +1,54 @@
 import React, { useContext, useEffect, useReducer, useRef } from 'react'
 import reducer from './reducer'
-
+/**
+ * App Context of the application
+ */
 
 const AppContext = React.createContext();
 
 const initialState = {
-    loading: true,
-    completed: false,
-    arraySize: 8,
-    sortingSpeed: 700,
-    sortingType: 'BUBBLE_SORT',
-    isStarted: false,
-    itemArray: [],
-    initialArrayState: [],
-    minArrayValue: 10,
-    maxArrayValue: 55,
-    selectedIndex: -1,
-    comparedIndex: -1,
-    animationLength: 1,
-    timeComplexity: '',
-    spaceComplexity: ''
+    loading: true, // used in Loading
+    completed: false, // used in Loading
+    arraySize: 8, // used in Generating Array in SortingContainer
+    sortingSpeed: 700, // used in regulating sorting speed in SortingContainer
+    sortingType: 'BUBBLE_SORT', // used in selecting sorting type in select in SortingContainer
+    isStarted: false, // used in controling sorting proccess with buttons 'Start' and 'Stop' in SortingContainer
+    itemArray: [], // container of values in SortingContainer
+    initialArrayState: [], // container of values after Array was generated (used to return itemArray to Initial State, button 'Initial State') in SortingContainer
+    minArrayValue: 10, // min value in itemArray
+    maxArrayValue: 55, // max value in itemArray
+    selectedIndex: -1, // used for changing colors while sorting for better visualisation (current item)
+    comparedIndex: -1, // used for changing colors while sorting for better visualisation (compared item)
+    timeComplexity: '', // used for display of time complexity of selected sorting type
+    spaceComplexity: '' // used for display of space complexity of selected sorting type
   }
 
 
 const AppProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
-    const isStartedReference = useRef()
-    isStartedReference.current = state.isStarted;
+    const isStartedReference = useRef() // this property is used by isStarted property of the state
+    isStartedReference.current = state.isStarted; // why?
+    // to access isStarted property of state accross different threads (this useRef is crucial, because while working with async/await 
+    // we can access only to a so-called freezed set of properties in certain function, but using useRef React Hook can help us to access 
+    // real-time value of isStarted property 
 
+    // #region Loading Screen
     const showLoadingScreen = () => {
         dispatch({type: 'LOADING'});
     }
     const showLoadingCompletedScreen = () => {
         dispatch({type: 'COMPLETED'});
     }
-
-    const controlSorting = () => {
+    //#endregion
+    //#region Controls
+    const controlSorting = () => { // is used when 'Start' or 'Stop' button is pressed
         dispatch({type: 'SORTING_CONTROL'});
     }
 
-    const changeSortingSpeed = (value) => {
+    const changeSortingSpeed = (value) => { // is used when we change sorting speed in slider in SortingContainer
         switch(value) {
             case '1':
-                dispatch({type: 'SPEED_CHANGE', speedValue: 3000});
+                dispatch({type: 'SPEED_CHANGE', speedValue: 2000});
                 break;
             case '2':
                 dispatch({type: 'SPEED_CHANGE', speedValue: 1000});
@@ -62,60 +68,61 @@ const AppProvider = ({ children }) => {
           }
     }
 
-    const changeArraySize = (value) => {
+    const changeArraySize = (value) => { // is used when we change array size in slider in SortingContainer
         dispatch({type: 'ARRAY_SIZE_CHANGE', arraySizeValue: value});
     }
 
-    const changeSortingType = (value) => {
+    const changeSortingType = (value) => { // is used when we change sorting type in select in SortingContainer
         dispatch({type: 'SORTING_TYPE_CHANGE', sortingTypeValue: value});
         dispatch({type: 'SET_TIME_AND_SPACE_COMPLEXITY', sortType: value});
     }
 
-    const generateNewItemArray = () => {
-        dispatch({type: 'SORTING_CONTROL'});
+    const generateNewItemArray = () => { // is used whe we are pressing 'Generate New Array' button in SortingContainer
+        dispatch({type: 'SORTING_CONTROL'}); 
         dispatch({type: 'ENABLE_CONTROL'});
         dispatch({type: 'CLEAR_INDEXES'})
         dispatch({type: 'GENERATE_ARRAY'});
     }
 
-    const returnToInitialState = () => {
+    const returnToInitialState = () => { // is used whe we are pressing 'Initial State' button in SortingContainer
         dispatch({type: 'SORTING_CONTROL'});
         dispatch({type: 'ENABLE_CONTROL'});
         dispatch({type: 'CLEAR_INDEXES'})
         dispatch({type: 'INITIAL_ARRAY'});
     }
+    // #endregion
 
-    useEffect(() => {
+    useEffect(() => { // is used for animation and generating array of value when user only loads the page
         const timer = setTimeout( () => {
-            showLoadingScreen();
-            dispatch({type: 'GENERATE_ARRAY'});
+            showLoadingScreen(); // showing loading animation
+            dispatch({type: 'GENERATE_ARRAY'}); //generating array of values
             setTimeout(() => {
-                showLoadingCompletedScreen();  
+                showLoadingCompletedScreen();  // showing success text after loading is completed
             }, 1500);
         }, 2250)
-        dispatch({type: 'SET_TIME_AND_SPACE_COMPLEXITY', sortType: state.sortingType});
+        dispatch({type: 'SET_TIME_AND_SPACE_COMPLEXITY', sortType: state.sortingType}); // set time and space complexity of 
         return () => clearTimeout(timer);
     }, []);
 
-    const delay = t => new Promise(resolve => setTimeout(resolve, t));
+    const delay = t => new Promise(resolve => setTimeout(resolve, t)); //is used to regulate sorting speed (swapping)
     
-    const delayClear = () => new Promise(resolve => {
+    const delayClear = () => new Promise(resolve => { // is used to regulate sorting speed (comparing)
         setTimeout(() => {
             resolve()
-        }, state.sortingSpeed / 2 > 500 ? 500 : state.sortingSpeed / 2)  
+        }, state.sortingSpeed / 2 > 500 ? 500 : state.sortingSpeed / 2) 
     });
 
 
-    useEffect(() => {
+    useEffect(() => { 
         if(state.isStarted){
             switch(state.sortingType) {
                 case 'BUBBLE_SORT':
                     bubbleSortData();
                     break;
                 case 'MERGE_SORT':
-                    let array = JSON.parse(JSON.stringify(state.itemArray));
-                    mergeSortDataVisual(array);
-                    break;
+                    let array = JSON.parse(JSON.stringify(state.itemArray)); // here I made copy of the itemArray because of complex logic of animation in Merge Sort
+                    mergeSortDataVisual(array); // I had to animate Merge Sort with an existing set of values (and in Merge Sort we are diving array up to 1 element in each subarray)
+                    break; // so I had to create copy of the itemArray and figure out how to animate everything smoothly (which I have done with additional pointer)
                 case 'INSERTION_SORT':
                     insertionSortData();
                     break;
@@ -140,8 +147,8 @@ const AppProvider = ({ children }) => {
     }, [state.isStarted]);
 
       // #region Bubble Sort
-    const bubbleSortData = async () => {
-        if(state.isStarted) {
+    const bubbleSortData = async () => { //simple bubble sort logic 
+        if(state.isStarted) { // where in each iteration the highest value goes to the end of the array
             let write = 0;            
             while(write < state.itemArray.length) {  
                 for(let i = 0; i < state.itemArray.length - write - 1; i++) {
@@ -151,6 +158,9 @@ const AppProvider = ({ children }) => {
                   dispatch({type: 'SET_CURRENT_ITEM', index: i})
                   dispatch({type: 'SET_COMPARED_ITEM', index: i + 1})
                   await delayClear()
+                  if(!isStartedReference.current) {
+                    return;
+                  }
                   if(state.itemArray[i].value > state.itemArray[i+1].value){
                     dispatch({type: 'SWAP_ITEMS_BUBBLE_SORT', index: i})
                     await delay(state.sortingSpeed);
@@ -164,8 +174,9 @@ const AppProvider = ({ children }) => {
       // #endregion
 
       // #region Shell Sort
-      const shellSortData = async () => {
-        if(state.isStarted) {
+      const shellSortData = async () => { // simple shell sort logic where insertion sort is used but with intervals what reduces Time Complexity 
+        if(state.isStarted) { // we are taking value at certain index and store it in a key variable and then just compare and swap proccess
+            // process is identical to insertion sort (selection sort is similar to it as well and easier to understand, so I recommend to check Selection Sort algorithms to understand everything better)
             for(let interval = Math.floor(state.itemArray.length / 2); interval > 0; interval = Math.floor(interval/2)) {
                 for(let i = interval; i < state.itemArray.length; i++){
                     if(!isStartedReference.current) {
@@ -182,10 +193,12 @@ const AppProvider = ({ children }) => {
                         dispatch({type: 'SET_CURRENT_ITEM', index: j})
                         dispatch({type: 'SET_COMPARED_ITEM', index: j-interval})
                         
-                        dispatch({type: 'SWAP_ITEMS_MERGE_SORT', indexLeft: j, indexRight: j-interval})
+                        dispatch({type: 'INSERT_ITEM_SHELL_SORT', index: j, intervalVal: interval})
                         await delay(state.sortingSpeed);
                     }
-                    
+                    if(!isStartedReference.current) {
+                        return;
+                    }
                     dispatch({type: 'INSERT_KEY_SHELL_SORT', keyValue: temp, index: j})
                     await delayClear(); 
                 }
@@ -195,8 +208,8 @@ const AppProvider = ({ children }) => {
       }
       // #endregion
       // #region Selection Sort
-      const selectionSortData = async () => {
-        if(state.isStarted) {
+      const selectionSortData = async () => { // simple selection sort algorithm logic, extremely similar to bubble sort
+        if(state.isStarted) { // but is done vice-versa, in each iteration the lowest element goes to the start of the array
             for(let step = 0; step < state.itemArray.length - 1; step++) {
                 let min_index = step;
 
@@ -213,7 +226,10 @@ const AppProvider = ({ children }) => {
                 }
                 dispatch({type: 'SET_CURRENT_ITEM', index: step})
                 dispatch({type: 'SET_COMPARED_ITEM', index: min_index})
-                dispatch({type: 'SWAP_ITEMS_SELECTION_SORT', stepIndex: step, minIndex: min_index})
+                if(!isStartedReference.current) {
+                    return;
+                }
+                dispatch({type: 'SWAP_ITEMS', indexLeft: step, indexRight: min_index})
                 await delay(state.sortingSpeed);
               }
             endSorting();
@@ -222,8 +238,8 @@ const AppProvider = ({ children }) => {
       // #endregion
       
       // #region Insertion Sort
-      const insertionSortData = async () => {
-        if(state.isStarted) {
+      const insertionSortData = async () => { // standart logic of Insertion Sort algorithm
+        if(state.isStarted) { // in every iterion of this algorithm we have sorted array behind current index
             for(let step = 1; step < state.itemArray.length; step++) {
                 let key = state.itemArray[step].value;
                 let i = step - 1;
@@ -242,7 +258,9 @@ const AppProvider = ({ children }) => {
                 }
                 dispatch({type: 'CLEAR_INDEXES'})
                 dispatch({type: 'SET_CURRENT_ITEM', index: i + 1})
-                
+                if(!isStartedReference.current) {
+                    return;
+                }
                 dispatch({type: 'INSERT_KEY_INSERTION_SORT', keyValue: key, index: i})
                 await delay(state.sortingSpeed);
               }
@@ -253,8 +271,8 @@ const AppProvider = ({ children }) => {
       // #endregion
       
       // #region Merge Sort
-      const mergeSortDataVisual = async (arr) => {
-        if(state.isStarted) {
+      const mergeSortDataVisual = async (arr) => { // standart logic of Merge Sort, but is performed with 2 array (1 is going through sorting logic,
+        if(state.isStarted) { // 1 is displaying sorting animation) I accomplished this task by adding startingIndex
             if(!isStartedReference.current) {
                 return;
             }
@@ -289,6 +307,7 @@ const AppProvider = ({ children }) => {
         if(state.isStarted) {
             let sortedArr = [];
             let startingIndex = 0;
+            // below there are 3 ifs to avoid all possible edge cases
             if(left !== undefined){
                 startingIndex = state.itemArray.findIndex( (item) => {
                     return item.value === left[0].value;
@@ -326,13 +345,13 @@ const AppProvider = ({ children }) => {
                 if(left[0].value <= right[0].value) {
                     dispatch({type: 'SET_CURRENT_ITEM', index: startingIndex})
                     dispatch({type: 'SET_COMPARED_ITEM', index: indexLeftByValue})
-                    dispatch({type: 'SWAP_ITEMS_MERGE_SORT', indexLeft: startingIndex, indexRight: indexLeftByValue})
+                    dispatch({type: 'SWAP_ITEMS', indexLeft: startingIndex, indexRight: indexLeftByValue})
                     sortedArr.push(left.shift());
                 }
                 else {
                     dispatch({type: 'SET_CURRENT_ITEM', index: startingIndex})
                     dispatch({type: 'SET_COMPARED_ITEM', index: indexRightByValue})
-                    dispatch({type: 'SWAP_ITEMS_MERGE_SORT', indexLeft: startingIndex, indexRight: indexRightByValue})
+                    dispatch({type: 'SWAP_ITEMS', indexLeft: startingIndex, indexRight: indexRightByValue})
                     sortedArr.push(right.shift());
                 }
                 startingIndex++;
@@ -349,7 +368,7 @@ const AppProvider = ({ children }) => {
                 })
                 dispatch({type: 'SET_CURRENT_ITEM', index: startingIndex})
                 dispatch({type: 'SET_COMPARED_ITEM', index: indexLeftByValue})
-                dispatch({type: 'SWAP_ITEMS_MERGE_SORT', indexLeft: startingIndex, indexRight: indexLeftByValue})
+                dispatch({type: 'SWAP_ITEMS', indexLeft: startingIndex, indexRight: indexLeftByValue})
                 sortedArr.push(left.shift());
                 startingIndex++;
                 await delay(state.sortingSpeed);
@@ -363,7 +382,7 @@ const AppProvider = ({ children }) => {
                 })
                 dispatch({type: 'SET_CURRENT_ITEM', index: startingIndex})
                 dispatch({type: 'SET_COMPARED_ITEM', index: indexRightByValue})
-                dispatch({type: 'SWAP_ITEMS_MERGE_SORT', indexLeft: startingIndex, indexRight: indexRightByValue})
+                dispatch({type: 'SWAP_ITEMS', indexLeft: startingIndex, indexRight: indexRightByValue})
                 sortedArr.push(right.shift());
                 startingIndex++;
                 await delay(state.sortingSpeed);
@@ -375,7 +394,7 @@ const AppProvider = ({ children }) => {
      // #endregion
      
      // #region Quick Sort
-     const quickSortDataVisual = async () => {
+     const quickSortDataVisual = async () => { // Standart logic of Quick Sort
         if(state.isStarted) {
             if(!isStartedReference.current) {
                 return;
@@ -441,7 +460,7 @@ const AppProvider = ({ children }) => {
                     }
                     dispatch({type: 'SET_CURRENT_ITEM', index: i})
                     dispatch({type: 'SET_COMPARED_ITEM', index: j})
-                    dispatch({type: 'SWAP_ITEMS_MERGE_SORT', indexLeft: i, indexRight: j})
+                    dispatch({type: 'SWAP_ITEMS', indexLeft: i, indexRight: j})
                     i++;
                     j--;
                    await delay(state.sortingSpeed);
@@ -454,7 +473,7 @@ const AppProvider = ({ children }) => {
      // #endregion
      
      // #region Heap Sort 
-      const heapSort = async () => {
+      const heapSort = async () => { // Standart logic of Heap Sort
         for (let i = Math.floor(state.itemArray.length / 2); i >= 0; i--) {
             if(!isStartedReference.current) {
                 return;
@@ -470,7 +489,7 @@ const AppProvider = ({ children }) => {
             } 
             dispatch({type: 'SET_CURRENT_ITEM', index: 0})
             dispatch({type: 'SET_COMPARED_ITEM', index: i})
-            dispatch({type: 'SWAP_ITEMS_MERGE_SORT', indexLeft: 0, indexRight: i})
+            dispatch({type: 'SWAP_ITEMS', indexLeft: 0, indexRight: i})
  
             await delayClear();
             // call max heapify on the reduced heap 
@@ -505,7 +524,7 @@ const AppProvider = ({ children }) => {
             }  
               dispatch({type: 'SET_CURRENT_ITEM', index: i})
               dispatch({type: 'SET_COMPARED_ITEM', index: largest})
-              dispatch({type: 'SWAP_ITEMS_MERGE_SORT', indexLeft: i, indexRight: largest})
+              dispatch({type: 'SWAP_ITEMS', indexLeft: i, indexRight: largest})
 
               await delay(state.sortingSpeed);
             // Recursively heapify the affected sub-tree 
@@ -516,7 +535,7 @@ const AppProvider = ({ children }) => {
 
      // #region End Sort Animation
 
-      const endSorting = async () => {
+      const endSorting = async () => { // is used when sorting is completed to change bars' colors
         dispatch({type: 'CLEAR_INDEXES'})
             
         for(let i = 0; i < state.itemArray.length;i++) {

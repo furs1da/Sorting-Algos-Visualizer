@@ -1,5 +1,11 @@
 import { createTheme } from '@mui/material/styles';
 
+/**
+ * themeButtons is a created Theme used in SortingContainer.js to style control buttons (Start, Stop, Generate New Array, Initial State)
+ * I used createTheme function of MUI to make styling of the buttons more flexible and convenient and to expand my knowledge in MUI related 
+ * to Themes instrument
+ */
+
 const themeButtons = createTheme({
     palette: {
         start: {
