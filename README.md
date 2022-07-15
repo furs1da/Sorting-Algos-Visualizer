@@ -26,4 +26,5 @@ How to deploy on your own machine:
 ![LoadingScreen](https://user-images.githubusercontent.com/45331164/179131427-3d75ae7a-d70c-4f0a-98cd-5c7b37bf9c57.gif)
 
 
-2. Main Page, where sorting 
+2. Main Page, checking controls <br />
+![MainPage](https://user-images.githubusercontent.com/45331164/179132183-62f5b0b7-62b3-48aa-abfd-8f78d3957481.gif)
