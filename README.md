@@ -32,3 +32,8 @@ How to deploy on your own machine:
 3. Bubble Sort <br />
 ![BubbleSort](https://user-images.githubusercontent.com/45331164/179133199-86daddd6-3482-4da5-9316-06914c16839f.gif)
 
+4. Merge Sort <br />
+![MergeSort](https://user-images.githubusercontent.com/45331164/179134453-eac6c885-b925-45fc-8111-a3939d07ec3e.gif)
+
+
+
