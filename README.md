@@ -64,6 +64,8 @@ How to deploy on your own machine:
 - Using React Hooks (useState, useReducer, useRef, useEffect);
 - Using global context in a React App;
 - Using Lotties (animated files);
-- Using React UI instruments such as MDB React and Material UI
+- Using React UI instruments such as MDB React and Material UI;
+- How objects and functions are stored in the memory in React;
+- Difference between shallow and deep copy in Javascript;
 
 
