@@ -39,16 +39,31 @@ How to deploy on your own machine:
 ![Insertion Sort](https://user-images.githubusercontent.com/45331164/179135971-de775cc7-605d-4fca-b539-7f44924fda92.gif)
 
 6. Selection Sort <br />
+![Selection Sort](https://user-images.githubusercontent.com/45331164/179142129-9d295e4b-d124-41a7-a816-5c1f70de3a08.gif)
 
 
 7. Shell Sort <br />
+![Shell Sort](https://user-images.githubusercontent.com/45331164/179142138-9753cac5-4b8b-409a-8756-de2ad877778a.gif)
 
 
 8. Heap Sort <br />
+![Heap Sort](https://user-images.githubusercontent.com/45331164/179142147-7fb4524c-816b-44e6-bbf4-8bd2c5dd5598.gif)
 
 
 9. Quick Sort <br />
+![Quick Sort](https://user-images.githubusercontent.com/45331164/179142167-fbbcd8ba-30c3-43dc-a06b-9f621e350127.gif)
 
 
+<hr/>
+
+<b>Things I have learned or enhanced while developing this project:</b>
+
+- Sorting algorithms;
+- Using async/await;
+- Using recursive functions;
+- Using React Hooks (useState, useReducer, useRef, useEffect);
+- Using global context in a React App;
+- Using Lotties (animated files);
+- Using React UI instruments such as MDB React and Material UI
 
 
