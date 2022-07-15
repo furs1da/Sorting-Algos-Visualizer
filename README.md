@@ -28,3 +28,7 @@ How to deploy on your own machine:
 
 2. Main Page, checking controls <br />
 ![MainPage](https://user-images.githubusercontent.com/45331164/179132183-62f5b0b7-62b3-48aa-abfd-8f78d3957481.gif)
+
+3. Bubble Sort <br />
+![BubbleSort](https://user-images.githubusercontent.com/45331164/179133199-86daddd6-3482-4da5-9316-06914c16839f.gif)
+
