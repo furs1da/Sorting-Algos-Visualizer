@@ -35,5 +35,20 @@ How to deploy on your own machine:
 4. Merge Sort <br />
 ![MergeSort](https://user-images.githubusercontent.com/45331164/179134453-eac6c885-b925-45fc-8111-a3939d07ec3e.gif)
 
+5. Insertion Sort <br />
+![Insertion Sort](https://user-images.githubusercontent.com/45331164/179135971-de775cc7-605d-4fca-b539-7f44924fda92.gif)
+
+6. Selection Sort <br />
+
+
+7. Shell Sort <br />
+
+
+8. Heap Sort <br />
+
+
+9. Quick Sort <br />
+
+
 
 
