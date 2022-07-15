@@ -67,5 +67,6 @@ How to deploy on your own machine:
 - Using React UI instruments such as MDB React and Material UI;
 - How objects and functions are stored in the memory in React;
 - Difference between shallow and deep copy in Javascript;
+- Deploying React Application to Github Pages;
 
 
