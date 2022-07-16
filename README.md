@@ -1,3 +1,6 @@
+@settings {
+  font-size: 110;
+}
 # SortingAlgosReact
 Website written in React with graphic represantation of sorting algorithms.
 
@@ -5,13 +8,13 @@ Live Demo - https://furs1da.github.io/SortingAlgosReact/
 
 List of sorting algorithms:
 
-- [Bubble Sort](#bubble-sort);
-- [Merge Sort](#merge-sort);
-- [Insertion Sort](#insertion-sort);
-- [Selection Sort](#selection-sort);
-- [Shell Sort](#shell-sort);
-- [Heap Sort](#heap-sort);
-- [Quick Sort](#quick-sort);
+- [Bubble Sort](#bubble-sort-);
+- [Merge Sort](#merge-sort-);
+- [Insertion Sort](#insertion-sort-);
+- [Selection Sort](#selection-sort-);
+- [Shell Sort](#shell-sort-);
+- [Heap Sort](#heap-sort-);
+- [Quick Sort](#quick-sort-);
 
 
 How to deploy on your own machine:
