@@ -22,7 +22,7 @@ How to deploy on your own machine:
 
  Demonstration of the work of the website:
 
-####1. ### Loading Screen <br />
+ <font size="1">1.</font> ### Loading Screen <br />
 ![LoadingScreen](https://user-images.githubusercontent.com/45331164/179131427-3d75ae7a-d70c-4f0a-98cd-5c7b37bf9c57.gif)
 
 
