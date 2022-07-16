@@ -14,6 +14,7 @@ List of sorting algorithms:
 - [Quick Sort](#quick-sort);
 
 <br/>
+
 [Things I have learned while developing this project](#learned-things)
 
 
