@@ -15,7 +15,7 @@ List of sorting algorithms:
 
 <br/>
 
-[Things I have learned while developing this project](#learned-things)
+[Things I have learned while developing this project ⬇](#learned-things)
 
 
 How to deploy on your own machine:
