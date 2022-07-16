@@ -5,7 +5,7 @@ Live Demo - https://furs1da.github.io/SortingAlgosReact/
 
 List of sorting algorithms:
 
-- [Bubble Sort] (#bubble-sort);
+- [Bubble Sort] (#bubble-sort) ;
 - Merge Sort;
 - Insertion Sort;
 - Selection Sort;
