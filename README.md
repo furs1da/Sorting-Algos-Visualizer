@@ -13,6 +13,9 @@ List of sorting algorithms:
 - [Heap Sort](#heap-sort);
 - [Quick Sort](#quick-sort);
 
+<br/>
+[Things I have learned while developing this project](#learned-things)
+
 
 How to deploy on your own machine:
 
@@ -56,7 +59,7 @@ How to deploy on your own machine:
 
 <hr/>
 
-<b>Things I have learned or enhanced while developing this project:</b>
+<a id="learned-things"><b>Things I have learned or enhanced while developing this project:</b></a>
 
 - Sorting algorithms;
 - Using async/await;
