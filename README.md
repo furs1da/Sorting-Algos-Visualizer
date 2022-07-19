@@ -1,4 +1,4 @@
-# SortingAlgosReact
+# Sorting Algorithms Visualizer
 Website written in React with graphic represantation of sorting algorithms.
 
 Live Demo - https://furs1da.github.io/SortingAlgosReact/
