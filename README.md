@@ -52,7 +52,7 @@ Unit tests are not currently included in the project. If you wish to add tests, 
 2. Deploy the application to your desired platform (e.g., GitHub Pages, Netlify, etc.). Follow the platform's documentation for specific deployment steps.
 
 ### Creating the Link for the Installed Project
-Once you have deployed the application, you will receive a link to the live project. Update the `README.md` file to include the new link in the "Live Demo" section.
+Once you have deployed the application, you will receive a link to the live project. My working demonstration: (https://furs1da.github.io/SortingAlgosReact/)
 
 ### Version Control
 Future enhancements and bug fixes will be handled through the standard Git version control process. Developers should create feature branches for new additions, and use pull requests to merge code into the main branch. Issues can be tracked and discussed in the repository's "Issues" tab.
