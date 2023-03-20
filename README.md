@@ -61,7 +61,7 @@ Future enhancements and bug fixes will be handled through the standard Git versi
 After visiting the [live demo](https://furs1da.github.io/SortingAlgosReact/), users can interact with the website to select and visualize different sorting algorithms. The controls on the website allow users to generate a new array of numbers, adjust the speed of the visualization, and start or pause the sorting process.
 
 
-## Demonstration of the work of the website:
+## Demonstration
 
  1. <a>Loading Screen</a> <br />
 ![LoadingScreen](https://user-images.githubusercontent.com/45331164/179131427-3d75ae7a-d70c-4f0a-98cd-5c7b37bf9c57.gif)
