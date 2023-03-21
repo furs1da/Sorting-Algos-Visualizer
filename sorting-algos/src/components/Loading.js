@@ -20,7 +20,7 @@ const Loading = () => {
   const {loading, completed} = useGlobalContext();
 
   return (
-    <div className='containerLoading'>
+    <div className='containerLoading info2300'>
       {!completed ? (
         <>
           {loading ? (
