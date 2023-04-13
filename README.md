@@ -67,15 +67,15 @@ After visiting the [live demo](https://furs1da.github.io/SortingAlgosReact/), us
 During the development of this project, I have learned or enhanced my knowledge on the following topics:
 
 - Sorting algorithms
-- [Using async/await](#using-async-await)
-- [Using recursive functions](#using-recursive-functions)
-- [Using React Hooks](#using-react-hooks)
-- [Using global context in a React App](#using-global-context-in-a-react-app)
-- [Using Lotties (animated files)](#using-lotties-animated-files)
-- [Using React UI instruments](#using-react-ui-instruments)
-- [How objects and functions are stored in the memory in React](#how-objects-and-functions-are-stored-in-the-memory-in-react)
-- [Difference between shallow and deep copy in JavaScript](#difference-between-shallow-and-deep-copy-in-javascript)
-- [Deploying React Application to Github Pages](#deploying-react-application-to-github-pages)
+- Using async/await
+- Using recursive functions
+- Using React Hooks
+- Using global context in a React App
+- Using Lotties (animated files)
+- Using React UI instruments
+- How objects and functions are stored in the memory in React
+- Difference between shallow and deep copy in JavaScript
+- Deploying React Application to Github Pages
 
 By working on this project, I have gained a deeper understanding of how sorting algorithms work and how to implement them in a visually appealing way. Additionally, I have become more familiar with various React concepts and libraries, which has improved my overall React development skills.
 
