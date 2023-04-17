@@ -1,7 +1,7 @@
 # Sorting Algorithms Visualizer
 A website written in React that provides graphic representations of various sorting algorithms.
 
-Live Demo - https://furs1da.github.io/SortingAlgosReact/
+Live Demo - https://furs1da.github.io/Sorting-Algos-Visualizer/
 
 ## Table of Contents
 - [About the Project](#about-the-project)
